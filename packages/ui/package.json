@@ -1,0 +1,17 @@
+{
+  "name": "@inspirasi/ui",
+  "version": "0.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "tsc:build": "tsc -b",
+    "lint": "eslint src --ext .ts,.tsx",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\""
+  },
+  "dependencies": {
+    "react": "^18.0.0"
+  },
+  "devDependencies": {}
+}
