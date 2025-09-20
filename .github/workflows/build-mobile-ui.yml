@@ -26,3 +26,13 @@ jobs:
         run: pnpm -C packages/ui run build
       - name: List built files
         run: ls -la packages/ui/dist || true
+      - name: Smoke test - verify build output
+        run: |
+          if [ -f packages/ui/dist/index.js ]; then
+            echo "OK: packages/ui/dist/index.js exists"
+            exit 0
+          else
+            echo "FAIL: packages/ui/dist/index.js missing"
+            ls -la packages/ui/dist || true
+            exit 1
+          fi
