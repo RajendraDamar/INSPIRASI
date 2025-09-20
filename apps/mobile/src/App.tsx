@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { Button } from '@inspirasi/ui';
+// Button from @inspirasi/ui will be used later when UI components are wired for native
 
 export default function App() {
   return (
