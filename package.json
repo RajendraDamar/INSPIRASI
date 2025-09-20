@@ -1,0 +1,27 @@
+{
+  "name": "inspirasi-workspace",
+  "private": true,
+  "version": "0.0.0",
+  "packageManager": "pnpm@8.x",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "bootstrap": "pnpm -w install",
+    "build": "pnpm -w -r run build",
+    "tsc:build": "pnpm -w -r run tsc:build",
+    "lint": "pnpm -w -r run lint",
+    "format": "pnpm -w -r run format",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.2",
+    "eslint": "^8.50.0",
+    "@typescript-eslint/parser": "^6.6.0",
+    "@typescript-eslint/eslint-plugin": "^6.6.0",
+    "prettier": "^2.8.8",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.2.0"
+  }
+}
