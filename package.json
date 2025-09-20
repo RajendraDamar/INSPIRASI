@@ -15,6 +15,13 @@
     "format": "pnpm -w -r run format",
     "prepare": "husky install"
   },
+  "lint-staged": {
+    "**/*.{ts,tsx,js,jsx}": [
+      "pnpm -w -r run lint --silent",
+      "pnpm -w -r run format --silent",
+      "git add"
+    ]
+  },
   "devDependencies": {
     "typescript": "^5.4.2",
     "eslint": "^8.50.0",
