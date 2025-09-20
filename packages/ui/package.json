@@ -8,10 +8,20 @@
     "build": "tsc -b",
     "tsc:build": "tsc -b",
     "lint": "eslint src --ext .ts,.tsx",
-    "format": "prettier --write \"src/**/*.{ts,tsx}\""
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "react": "^18.2.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+  "@storybook/addon-essentials": "^7.0.0",
+  "@storybook/addon-interactions": "^7.0.0",
+  "@storybook/react": "^7.0.0",
+  "@storybook/react-vite": "^7.0.0",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.23",
+    "tailwindcss": "^3.4.0"
+  }
 }

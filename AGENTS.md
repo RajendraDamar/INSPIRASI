@@ -116,6 +116,13 @@ Ensure that operational learnings from each session become durable doctrine impr
 - **Idempotence**: If a previous session already added the same principle recently (same wording, same intent), do not duplicate—merge or skip with a note.
 - **Size cap**: Doctrine edits from a single retro must be small and focused (≤ 20 lines of net additions) unless the user explicitly permits a larger refactor.
 
+### SESSION HARDENINGS (auto-applied)
+Small, high-impact rules derived from the recent workspace session. Keep concise and universally applicable.
+
+- Always run a quick `git status --porcelain` or `git diff --cached --name-only` before committing bulk edits to avoid accidentally staging large folders (e.g., node_modules).
+- When changing package manifests, update/install without `--frozen-lockfile` locally to refresh the lockfile, then CI may run with frozen mode; do not assume frozen mode for local authoring.
+- Prefer invoking tooling via package.json scripts (the canonical interface) instead of ad-hoc CLI flags to avoid platform/flag mismatches; test flags locally before automating.
+
 ---
 
 ---
