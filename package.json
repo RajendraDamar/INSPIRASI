@@ -18,8 +18,7 @@
   "lint-staged": {
     "**/*.{ts,tsx,js,jsx}": [
       "pnpm -w -r run lint --silent",
-      "pnpm -w -r run format --silent",
-      "git add"
+      "pnpm -w -r run format --silent"
     ]
   },
   "devDependencies": {
