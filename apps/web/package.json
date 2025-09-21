@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "test": "vitest run",
     "build": "next build",
     "start": "next start",
     "lint": "eslint --ext .ts,.tsx src",
@@ -17,5 +18,9 @@
     "localforage": "^1.10.0",
     "@inspirasi/api": "workspace:*",
     "@tanstack/react-query": "^4.35.0"
+  }
+  ,
+  "devDependencies": {
+    "vitest": "^1.0.0"
   }
 }
