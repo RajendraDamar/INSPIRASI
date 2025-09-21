@@ -170,7 +170,17 @@ These short, durable rules were distilled from a recent session that implemented
 
 ## CHANGELOG — DOCTRINE EVOLUTION
 
-- 2025-09-20: Added `D · EMBEDDED RETROSPECTIVE RULES` to formalize the retro workflow, safety guards, and size cap for doctrine edits. Rationale: session revealed a need for structured retros and limits on automated doctrine changes.
- - 2025-09-21: Added three retrofit rules from recent mobile/storybook smoke-test session: dev-guard lazy requires, deterministic visual anchors for CI screenshots, and prefer smallest-safe-change CI fixes. Rationale: improve on-device verification reliability and reduce CI friction.
  - 2025-09-21: Added two rules: prefer Context7 as the primary library docs/examples source and always perform an MCP-tools reconnaissance at task start. Rationale: improve accuracy and speed when researching libraries and leveraging repository-scoped tools.
+---
+
+## SESSION RETROSPECTIVE — 2025-09-21
+
+Distilled lessons (concise, durable):
+
+- Prefer built-in, stable crypto APIs (e.g., `crypto.randomUUID`) over custom fallbacks; keep fallbacks minimal and guarded by runtime checks.
+- Use persisted canonical IDs (DB-generated or stored UUIDs) as the primary identity in tokens; treat in-memory IDs as temporary mitigations only.
+- When automating repo workflows (PRs, pushes), assert presence of tools and provide human-visible fallbacks (web PR URL) if automation is unavailable.
+
+### CHANGELOG — DOCTRINE UPDATE
+- 2025-09-21: Appended three short session lessons advising secure crypto API preference, DB-persisted identity recommendation, and cautious automation of PR workflows.
  - 2025-09-21: Added Project Doctrine recommending a conservative pre-commit/CI hygiene check for doctrine files to prevent accidental inclusion of process-narration in final artifacts.

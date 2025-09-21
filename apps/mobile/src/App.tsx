@@ -1,10 +1,58 @@
-import React, { useState } from 'react';
-import { Text, View, Button as RNButton } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { Text, View, Button as RNButton, AppState, AppStateStatus } from 'react-native';
 import AppNavigator from './navigation/AppNavigator';
+import { QueryClientProvider, Hydrate, dehydrate, DehydratedState } from '@tanstack/react-query';
+import { createQueryClient } from '@inspirasi/api';
+import { createAsyncStorageAdapter, readDehydratedState, writeDehydratedState } from '@inspirasi/api';
 
 export default function App() {
   // Normal app entry: do not auto-run the temporary smoke-test.
   const [showSmoke, setShowSmoke] = useState(false);
+
+  const [isHydrated, setIsHydrated] = useState(false);
+  const [dehydratedState, setDehydratedState] = useState<DehydratedState | null>(null);
+  const qcRef = useRef(createQueryClient());
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      const adapter = await createAsyncStorageAdapter();
+      if (!adapter) {
+        if (mounted) setIsHydrated(true);
+        return;
+      }
+      const state = await readDehydratedState(adapter);
+      if (mounted) {
+        setDehydratedState(state);
+        setIsHydrated(true);
+      }
+    })();
+
+    const onAppState = async (next: AppStateStatus) => {
+      if (next === 'background' || next === 'inactive') {
+        try {
+          const adapter = await createAsyncStorageAdapter();
+          const dehydrated = dehydrate(qcRef.current);
+          await writeDehydratedState(adapter, dehydrated);
+        } catch (e) {
+          // swallow
+        }
+      }
+    };
+
+    const sub = AppState.addEventListener('change', onAppState);
+    return () => {
+      mounted = false;
+      sub.remove();
+    };
+  }, []);
+
+  if (!isHydrated) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Loading…</Text>
+      </View>
+    );
+  }
 
   if (showSmoke) {
     // Only allow the smoke-test in development builds. In production the
@@ -33,14 +81,17 @@ export default function App() {
   }
 
   return (
-    // When not running the dev-only smoke test, render the full app navigator.
-    showSmoke ? (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ fontSize: 18, marginBottom: 12 }}>Welcome to Inspirasi — Mobile</Text>
-        <RNButton title="Open UI smoke test" onPress={() => setShowSmoke(true)} />
-      </View>
-    ) : (
-      <AppNavigator />
-    )
+    <QueryClientProvider client={qcRef.current}>
+      <Hydrate state={dehydratedState}>
+        {showSmoke ? (
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={{ fontSize: 18, marginBottom: 12 }}>Welcome to Inspirasi — Mobile</Text>
+            <RNButton title="Open UI smoke test" onPress={() => setShowSmoke(true)} />
+          </View>
+        ) : (
+          <AppNavigator />
+        )}
+      </Hydrate>
+    </QueryClientProvider>
   );
 }
