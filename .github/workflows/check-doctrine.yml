@@ -1,0 +1,29 @@
+name: Doctrine hygiene check
+
+on:
+  push:
+    paths:
+      - 'AGENTS.md'
+      - 'scripts/**'
+      - '.github/workflows/**'
+  pull_request:
+    paths:
+      - 'AGENTS.md'
+      - 'scripts/**'
+      - '.github/workflows/**'
+
+jobs:
+  check-doctrine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: |
+          npm ci --prefer-offline --no-audit --no-fund
+      - name: Run doctrine hygiene check
+        run: |
+          node ./scripts/check-doctrine.js

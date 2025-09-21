@@ -13,6 +13,7 @@
     "tsc:build": "pnpm -w -r run tsc:build",
     "lint": "pnpm -w -r run lint",
     "format": "pnpm -w -r run format",
+    "check:doctrine": "node ./scripts/check-doctrine.js",
     "prepare": "husky install"
   },
   "lint-staged": {
@@ -20,6 +21,9 @@
       "pnpm -w -r run lint --silent",
       "pnpm -w -r run format --silent"
     ]
+  },
+  "dependencies": {
+    "use-latest-callback": "0.2.4"
   },
   "devDependencies": {
     "typescript": "^5.4.2",

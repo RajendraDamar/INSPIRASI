@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { verifyToken } from './lib/jwt'
 
 // Protect /reports/* and /profile
 const PROTECTED_PATHS = ['/reports', '/profile']
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
   // only handle protected paths
@@ -20,7 +21,14 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(loginUrl)
   }
 
-  return NextResponse.next()
+  try {
+    await verifyToken(authToken)
+    return NextResponse.next()
+  } catch (err) {
+    const loginUrl = new URL('/auth/login', req.url)
+    loginUrl.searchParams.set('next', pathname)
+    return NextResponse.redirect(loginUrl)
+  }
 }
 
 export const config = {

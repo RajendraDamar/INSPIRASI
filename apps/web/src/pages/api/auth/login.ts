@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { signToken } from '../../../lib/jwt'
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST')
     return res.status(405).end('Method Not Allowed')
@@ -10,21 +11,22 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { name } = req.body || { name: 'anon' }
 
   // In a real app you'd verify credentials and generate a signed token.
-  // Here we set a mock token value and mark it httpOnly and Secure.
-  const token = 'mock-server-token'
+  // Here we mock a user id, include it in the token payload, and set it as an httpOnly cookie.
+  const id = String(Date.now());
+  const token = await signToken({ id, name, role: 'user' })
 
-  // cookie attributes
+  const isProd = process.env.NODE_ENV === 'production'
+  const maxAge = 60 * 60 * 24 // 24 hours
+
   const cookieOptions = [
     `auth_token=${token}`,
     `Path=/`,
     `HttpOnly`,
-    // In production, set Secure and SameSite appropriately. For local dev
-    // on http, Secure may prevent the cookie from being set; detect NODE_ENV.
-    process.env.NODE_ENV === 'production' ? 'Secure' : 'SameSite=Lax',
-    `Max-Age=${60 * 60 * 24}`,
+    isProd ? 'Secure; SameSite=Strict' : 'SameSite=Lax',
+    `Max-Age=${maxAge}`,
   ]
 
   res.setHeader('Set-Cookie', cookieOptions.join('; '))
 
-  return res.status(200).json({ ok: true, name })
+  return res.status(200).json({ ok: true, user: { id, name } })
 }

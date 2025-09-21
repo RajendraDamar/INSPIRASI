@@ -1,0 +1,43 @@
+name: E2E — Playwright
+
+on:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    name: Run Playwright E2E
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Enable corepack & pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@8.6.0 --activate
+
+      - name: Install deps
+        run: pnpm -w -s install
+
+      - name: Build web app
+        run: pnpm -C apps/web -s run build
+
+      - name: Start web app
+        run: pnpm -C apps/web -s run start & npx wait-on tcp:3000
+
+      - name: Install Playwright browsers
+        run: pnpm -C apps/web -s run e2e:install
+
+      - name: Run Playwright tests
+        working-directory: ./apps/web
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          PLAYWRIGHT_BASE_URL: http://localhost:3000
+        run: pnpm -s run test:e2e
