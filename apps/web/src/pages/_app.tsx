@@ -7,6 +7,7 @@ import { QueryClientProvider, Hydrate } from '@tanstack/react-query';
 import type { DehydratedState } from '@tanstack/react-query';
 import { createQueryClient } from '@inspirasi/api';
 import { createLocalForageAdapter, readDehydratedState, writeDehydratedState } from '@inspirasi/api';
+import { LocationProvider } from '@inspirasi/ui';
 
 const queryClient = createQueryClient();
 
@@ -45,8 +46,10 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <Hydrate state={hydration}>
         <AuthProvider>
-          <Header />
-          <Component {...pageProps} />
+          <LocationProvider>
+            <Header />
+            <Component {...pageProps} />
+          </LocationProvider>
         </AuthProvider>
       </Hydrate>
     </QueryClientProvider>

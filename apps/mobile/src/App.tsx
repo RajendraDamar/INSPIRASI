@@ -4,6 +4,7 @@ import AppNavigator from './navigation/AppNavigator';
 import { QueryClientProvider, Hydrate, dehydrate, DehydratedState } from '@tanstack/react-query';
 import { createQueryClient } from '@inspirasi/api';
 import { createAsyncStorageAdapter, readDehydratedState, writeDehydratedState } from '@inspirasi/api';
+import { LocationProvider } from '@inspirasi/ui';
 
 export default function App() {
   // Normal app entry: do not auto-run the temporary smoke-test.
@@ -83,14 +84,16 @@ export default function App() {
   return (
     <QueryClientProvider client={qcRef.current}>
       <Hydrate state={dehydratedState}>
-        {showSmoke ? (
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{ fontSize: 18, marginBottom: 12 }}>Welcome to Inspirasi — Mobile</Text>
-            <RNButton title="Open UI smoke test" onPress={() => setShowSmoke(true)} />
-          </View>
-        ) : (
-          <AppNavigator />
-        )}
+        <LocationProvider>
+          {showSmoke ? (
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ fontSize: 18, marginBottom: 12 }}>Welcome to Inspirasi — Mobile</Text>
+              <RNButton title="Open UI smoke test" onPress={() => setShowSmoke(true)} />
+            </View>
+          ) : (
+            <AppNavigator />
+          )}
+        </LocationProvider>
       </Hydrate>
     </QueryClientProvider>
   );

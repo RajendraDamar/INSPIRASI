@@ -189,3 +189,17 @@ Distilled lessons (concise, durable):
 ### CHANGELOG — DOCTRINE UPDATE
 - 2025-09-21: Appended three short session lessons advising secure crypto API preference, DB-persisted identity recommendation, and cautious automation of PR workflows.
  - 2025-09-21: Added Project Doctrine recommending a conservative pre-commit/CI hygiene check for doctrine files to prevent accidental inclusion of process-narration in final artifacts.
+
+---
+
+## DOCTRINE ADDITION — 2025-09-22
+
+- Global Doctrine: "Prefer smallest-safe automatic fixes." When a security or runtime contract issue is identified (for example: weak ID generation), prefer a minimal, reversible patch (small diff, short TTL, feature flag) that mitigates immediate risk while scheduling a broader follow-up if needed.
+
+- Project Doctrine: "Treat optional runtime deps as feature gates." When depending on optional platform modules (e.g., localForage, AsyncStorage), gate dynamic imports behind feature-detection and provide safe fallbacks; add lightweight ambient types or runtime guards in CI to prevent accidental type/regression drift.
+
+- Operational Doctrine: "Prepare human fallbacks for automation." Automation that performs repository actions (PR creation, release publishing) must include a clear manual fallback (commands or web URL) when the automation client or token is unavailable.
+
+### CHANGELOG — DOCTRINE EVOLUTION
+
+- 2025-09-22: Added three concise principles: smallest-safe fixes, optional-dep gating with fallbacks, and automation fallbacks. Rationale: session fixes and PR automation failures highlighted these recurring risks.

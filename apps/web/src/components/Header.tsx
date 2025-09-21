@@ -2,15 +2,18 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth } from '../lib/auth';
+import { useLocationSafe } from '@inspirasi/ui';
 
 export default function Header() {
 	const router = useRouter();
 	const { user, logout } = useAuth();
+	const loc = useLocationSafe();
+	const label = loc?.place?.display_name ?? (loc?.position ? `${loc.position.lat.toFixed(2)}, ${loc.position.lng.toFixed(2)}` : '—');
 
 	return (
 		<header className="bg-white border-b p-3 flex items-center justify-between">
 			<div className="flex items-center gap-4">
-				<div className="text-sm font-medium">Location: <span className="font-semibold">Bali</span></div>
+						<div className="text-sm font-medium">Location: <span className="font-semibold">{label}</span></div>
 				<nav className="flex gap-2">
 					<Link href="/home" className={`px-2 py-1`}>Home</Link>
 					<Link href="/forecast/wave" className={`px-2 py-1`}>Forecast</Link>
