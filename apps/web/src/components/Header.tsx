@@ -25,7 +25,7 @@ export default function Header() {
 					<div className="flex items-center gap-2">
 						<button onClick={() => router.push('/profile')} className="px-2">{user.name}</button>
 						<button onClick={() => router.push('/settings')} className="px-2">⚙️</button>
-						<button onClick={() => logout()} className="px-2">Sign out</button>
+						<button onClick={() => logout()} className="px-2">Sign Out</button>
 					</div>
 				) : (
 					<div className="flex items-center gap-2">

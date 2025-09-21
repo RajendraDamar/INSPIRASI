@@ -22,8 +22,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = () => {
-    setUser(null);
-    router.push('/');
+    // Call server to clear httpOnly cookie, then clear client state and redirect to login
+    fetch('/api/auth/logout', { method: 'POST', headers: { 'Content-Type': 'application/json' } })
+      .catch(() => {
+        // ignore network failures but still clear client state
+      })
+      .finally(() => {
+        setUser(null);
+        router.push('/auth/login');
+      })
   };
 
   const requireAuth = (cb?: () => void) => {
