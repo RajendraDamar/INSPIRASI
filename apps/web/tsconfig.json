@@ -1,14 +1,43 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "rootDir": "src",
-    "outDir": "dist"
+  "jsx": "preserve",
+  "rootDir": "src",
+  "outDir": "dist",
+    "paths": {
+      "@inspirasi/ui": [
+        "../../packages/ui/dist"
+      ],
+      "@inspirasi/ui/*": [
+        "../../packages/ui/dist/*"
+      ]
+    },
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "noEmit": true,
+    "incremental": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
-  "include": ["src"],
+  "include": [
+    "src"
+  ],
   "references": [
-    { "path": "../../packages/ui" },
-    { "path": "../../packages/state" },
-    { "path": "../../packages/api" }
+    {
+      "path": "../../packages/ui"
+    },
+    {
+      "path": "../../packages/state"
+    },
+    {
+      "path": "../../packages/api"
+    }
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

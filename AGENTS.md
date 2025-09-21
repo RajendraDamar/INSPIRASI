@@ -123,6 +123,14 @@ Small, high-impact rules derived from the recent workspace session. Keep concise
 - When changing package manifests, update/install without `--frozen-lockfile` locally to refresh the lockfile, then CI may run with frozen mode; do not assume frozen mode for local authoring.
 - Prefer invoking tooling via package.json scripts (the canonical interface) instead of ad-hoc CLI flags to avoid platform/flag mismatches; test flags locally before automating.
 
+### RETROFIT RULES (from recent session)
+
+- When adding runtime verification helpers (logs, screenshots), always gate them behind development-only guards (e.g., `__DEV__`) and lazy-require the target package so production bundles are unchanged. (Project Doctrine)
+- For CI-facing visual checks, prefer large, deterministic visual anchors (single-color swatches or QR-like blocks) and a secondary machine-readable log marker. This makes screenshot-based checks robust and fast. (Project Doctrine)
+- Global Safety: Prefer non-invasive, smallest-safe-change fixes for CI or workflow linters (document the rationale in the changelog). If a deeper fix is required, include a short migration plan in the same change. (Global Doctrine)
+ - When a task requires library documentation or examples, consult Context7 as the first source for that library's canonical docs and code examples before searching broadly. Treat Context7-first as the default lookup pattern. (Global Doctrine)
+ - Always check available MCP tools at the start of a task that may use external libraries or platform integrations — list candidate MCP tools and reason which ones to use. Use MCP tools where they provide deterministic, repository-scoped assistance. (Project Doctrine)
+
 ---
 
 ---
@@ -137,3 +145,5 @@ Small, high-impact rules derived from the recent workspace session. Keep concise
 ## CHANGELOG — DOCTRINE EVOLUTION
 
 - 2025-09-20: Added `D · EMBEDDED RETROSPECTIVE RULES` to formalize the retro workflow, safety guards, and size cap for doctrine edits. Rationale: session revealed a need for structured retros and limits on automated doctrine changes.
+ - 2025-09-21: Added three retrofit rules from recent mobile/storybook smoke-test session: dev-guard lazy requires, deterministic visual anchors for CI screenshots, and prefer smallest-safe-change CI fixes. Rationale: improve on-device verification reliability and reduce CI friction.
+ - 2025-09-21: Added two rules: prefer Context7 as the primary library docs/examples source and always perform an MCP-tools reconnaissance at task start. Rationale: improve accuracy and speed when researching libraries and leveraging repository-scoped tools.

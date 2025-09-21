@@ -75,6 +75,8 @@ jobs:
       - name: Start Android emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
+          # Some workflow linters expect a `script` input for this action; an empty value is harmless.
+          script: ''
           api-level: 31
           arch: x86_64
           target: google_apis

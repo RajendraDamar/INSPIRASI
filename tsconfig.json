@@ -1,0 +1,12 @@
+{
+  "files": [],
+  "compilerOptions": {},
+  "references": [
+    { "path": "./packages/ui" },
+    { "path": "./packages/state" },
+    { "path": "./packages/api" },
+    { "path": "./packages/utils" },
+    { "path": "./apps/web" },
+    { "path": "./apps/mobile" }
+  ]
+}

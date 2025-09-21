@@ -1,0 +1,24 @@
+--------- beginning of main
+09-21 09:15:10.205  8175  8179 I id.bmri.livin: Clamp target GC heap from 300MB to 256MB
+09-21 09:15:10.206  8175  8179 I id.bmri.livin: Background concurrent mark compact GC freed 3965KB AllocSpace bytes, 0(0B) LOS objects, 1% free, 252MB/256MB, paused 1.653ms,6.787ms total 2.170s
+09-21 09:15:10.229  2567  7841 I BWU@Recorder: Ph_input stream available : 6400 ==> flush  [ForkJoinPool.commonPool-worker-5] 
+09-21 09:15:10.236  2567  8039 I ISG_Wakeup_Verify: [KWD] Bargein - scores: [0.0003, 0.0001, t(12100)], [0.0024, 0.0010, t(12104)], [0.0001, 0.0001, t(12108)], [0.0002, 0.0003, t(12112)], [0.0007, 0.0001, t(12116)], RMS: 2
+09-21 09:15:10.334 24857 24857 I Ads     : Ad failed to load : 3
+09-21 09:15:10.339 24857 25762 D DynamitePackage: Instantiating com.google.android.gms.ads.ChimeraAdManagerCreatorImpl
+09-21 09:15:10.340 24857 25762 I Ads     : Use RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("931C45A68F25B5E92F53A705FED4687B")) to get test ads on this device.
+09-21 09:15:10.349  2134  4078 V AS.AudioDeviceBroker: requestedCommunicationDevice: null mAudioModeOwner: AudioModeInfo: mMode=MODE_NORMAL, mPid=0, mUid=0
+09-21 09:15:10.360  1655 11760 I sensors-hal: handle_sns_client_event:689, [0][2031] gyro_sample_cal(3) [ 0.027,-0.003,-0.004] bias[ 0.015, 0.001,-0.000] 437827133036648
+09-21 09:15:10.361 24857 14275 W Ads     : Not retrying to fetch app settings
+09-21 09:15:10.380 15574 14986 W SQLiteLog: (28) double-quoted string literal: "1758248110380"
+09-21 09:15:10.380 15574 14986 W SQLiteLog: (28) double-quoted string literal: "1"
+09-21 09:15:10.381 20590 14209 I NetworkScheduler: (REDACTED) Error inserting %s
+09-21 09:15:10.397 15574 15574 I Ads     : Received log message: <Google:HTML> You are currently using version 251815999.244410000.1 of the SDK, which is out of date. Please consider updating your SDK to the most recent SDK version to get the latest features and bug fixes. The latest SDK can be installed from https://goo.gle/android-install-instructions. More information about the SDK deprecation schedule is available at https://developers.google.com/admob/android/deprecation.
+--------- beginning of system
+09-21 09:15:10.405  1073  1073 D io_stats: !@   8,0 r 76979040 1439864540 w 28050259 369586336 d 2833222 511897808 f 690266 2233537 iot 34017256 0 th 0 0 0 pt 0 inp 0 0 326536.118
+09-21 09:15:10.405  1073  1073 D io_stats: !@ Read_top(KB): adbd(15332) 936 gle.android.gms(15574) 860 ill.and.collect(24857) 836
+09-21 09:15:10.405  1073  1073 D io_stats: !@ Write_top(KB): kworker/u16:0(24534) 2912 ill.and.collect(24857) 1936 gle.android.gms(15574) 1312
+09-21 09:15:10.408 15574 14986 I Ads     : SDK version: afma-sdk-a-v251815999.244410000.1
+09-21 09:15:10.409 15574 14986 I Ads     : HTTP timeout: 60000 milliseconds.
+09-21 09:15:10.435  2567  7841 I BWU@Recorder: Ph_input stream available : 6400 ==> flush  [ForkJoinPool.commonPool-worker-5] 
+09-21 09:15:10.437  2567  8039 I ISG_Wakeup_Verify: VerifyRun: RMS EnvironmentMinima(1)
+09-21 09:15:10.442  2567  8039 I ISG_Wakeup_Verify: [KWD] Bargein - scores: [0.0010, 0.0001, t(12120)], [0.0004, 0.0001, t(12124)], [0.0003, 0.0002, t(12128)], [0.0012, 0.0006, t(12132)], [0.0012, 0.0000, t(12136)], RMS: 1
