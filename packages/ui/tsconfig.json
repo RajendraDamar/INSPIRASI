@@ -3,8 +3,10 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "ignoreDeprecations": "6.0"
   },
   "include": ["src"],
+  "exclude": ["src/**/*.stories.*", "src/__stories__/**", "**/node_modules/**"],
   "references": []
 }

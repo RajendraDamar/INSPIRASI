@@ -1,0 +1,44 @@
+name: Build Storybook (packages/ui)
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+
+jobs:
+  build-storybook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install pnpm
+        run: npm install -g pnpm@8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Storybook for packages/ui
+        run: pnpm -C packages/ui run build-storybook
+
+      - name: Upload Storybook static
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook-ui-static
+          path: packages/ui/storybook-static
+
+      - name: Publish Storybook to GitHub Pages
+        if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./packages/ui/storybook-static
+          publish_branch: gh-pages
+          # keep the history small
+          keep_files: false

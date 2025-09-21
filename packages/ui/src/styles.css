@@ -1,0 +1,6 @@
+@import '../../apps/web/src/styles/globals.css';
+
+/* package-level styles (storybook) */
+.sb-preview {
+  padding: 16px;
+}

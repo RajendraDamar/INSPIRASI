@@ -3,7 +3,12 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "dist",
+    "ignoreDeprecations": "6.0",
+    "paths": {
+      "@inspirasi/ui": ["../../packages/ui/dist"],
+      "@inspirasi/ui/*": ["../../packages/ui/dist/*"]
+    }
   },
   "include": ["src"],
   "references": [

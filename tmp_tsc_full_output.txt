@@ -1,0 +1,4 @@
+
+> inspirasi-workspace@0.0.0 tsc:build C:\Users\Damar\Downloads\Github\INSPIRASI
+> pnpm -w -r run tsc:build
+
