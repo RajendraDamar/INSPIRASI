@@ -1,3 +1,43 @@
+## Phase 2 — Integrate Carefully
+
+This section documents the integration steps we took and how to use the new CI workflow and cross-platform link helpers.
+
+1. CI: Build verification
+	 - A GitHub Actions workflow was added at `.github/workflows/build-mobile-ui.yml`.
+	 - It runs on `push` and `pull_request` for changes under `packages/ui/**` and will execute `pnpm -C packages/ui run build` to ensure the shared UI package builds in CI.
+	 - Purpose: catch TypeScript/build regressions for `@inspirasi/ui` early in PRs that affect the UI package.
+
+2. Cross-platform link helpers
+	 - Windows helper (already present): `scripts/link-ui-node-modules.ps1` — creates a junction using `mklink /J` from `apps/mobile/node_modules/@inspirasi/ui` to `packages/ui/dist`.
+	 - Unix helper (new): `scripts/link-ui-node-modules.sh` — creates a symbolic link for macOS/Linux developers.
+		 - Usage:
+			 - Make executable: `chmod +x scripts/link-ui-node-modules.sh`
+			 - Run: `./scripts/link-ui-node-modules.sh`
+		 - Both helpers are idempotent: they remove any existing path before creating the link.
+
+3. Verification steps (quick)
+	 - Build the shared UI package:
+		 ```bash
+		 pnpm -C packages/ui run build
+		 ```
+	 - Create the link (Windows):
+		 ```powershell
+		 pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/link-ui-node-modules.ps1
+		 ```
+	 - Create the link (macOS/Linux):
+		 ```bash
+		 chmod +x scripts/link-ui-node-modules.sh
+		 ./scripts/link-ui-node-modules.sh
+		 ```
+	 - Start Expo (mobile):
+		 ```bash
+		 pnpm -C apps/mobile run dev:mobile
+		 ```
+
+4. Caveats & follow-ups
+	 - CI currently only builds `packages/ui`. If you want CI to also run mobile bundling or smoke tests, we can wire an additional job that runs Metro/Expo bundling or a small Jest/react-native smoke test.
+	 - Consider adding a pre-commit hook or CI check that ensures `packages/ui` builds before merging PRs that touch mobile code.
+
 Developer Runbook — Inspirasi Mobile
 
 This file contains a short, copy-paste Windows PowerShell runbook and a small helper script for wireless ADB connections used while developing the Expo mobile app.
