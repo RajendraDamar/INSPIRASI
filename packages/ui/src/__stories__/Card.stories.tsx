@@ -1,6 +1,5 @@
 import React from 'react';
-import { Meta } from '@storybook/react';
-import ThemeProvider from '../ThemeProvider';
+import { Meta, Story } from '@storybook/react';
 import Card from '../Card.web';
 
 export default {
@@ -8,19 +7,15 @@ export default {
   component: Card
 } as Meta;
 
-export const Variants = () => (
-  <>
-    <ThemeProvider initial="light">
-      <div style={{ padding: 16 }}>
-        <h4>Light</h4>
-        <Card>Light card content</Card>
-      </div>
-    </ThemeProvider>
-    <ThemeProvider initial="dark">
-      <div style={{ padding: 16 }}>
-        <h4>Dark</h4>
-        <Card>Dark card content</Card>
-      </div>
-    </ThemeProvider>
-  </>
+export const Variants: Story = () => (
+  <div style={{ padding: 16 }}>
+    <h4>Current Theme</h4>
+    <Card>Card content</Card>
+  </div>
 );
+
+export const Light = Variants.bind({});
+Light.parameters = { globals: { theme: 'light' } };
+
+export const Dark = Variants.bind({});
+Dark.parameters = { globals: { theme: 'dark' } };

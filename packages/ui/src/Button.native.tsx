@@ -3,11 +3,7 @@ import { Pressable, Text, type StyleProp, type ViewStyle } from 'react-native';
 
 export type ButtonProps = React.ComponentProps<typeof Pressable> & { children?: React.ReactNode };
 
-// Token color mapping to match tailwind tokens in tailwind.config.js
-const TOKENS = {
-  primary600: '#2563eb',
-  primary700: '#1d4ed8'
-};
+import { tokens as TOKENS } from './tokens';
 
 export const Button = ({ children, style, ...props }: ButtonProps) => (
   <Pressable
