@@ -8,9 +8,15 @@
     "build": "tsc -b",
     "tsc:build": "tsc -b",
     "lint": "eslint --ext .ts,.tsx src",
+    "test": "vitest run",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,md}\""
   },
   "dependencies": {
-    "@tanstack/react-query": "^4.35.0"
+    "@tanstack/react-query": "^4.35.0",
+    "uuid": "^9.0.1"
+  }
+  ,
+  "devDependencies": {
+    "vitest": "^1.0.0"
   }
 }
