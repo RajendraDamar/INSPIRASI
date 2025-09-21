@@ -152,8 +152,13 @@ These short, durable rules were distilled from a recent session that implemented
 - Project Doctrine: "Small, reversible safety-first changes." Prefer minimal, backward-compatible edits (small diff, short TTLs, toggles) and document them in `.env.example` and the changelog when modifying security-sensitive behavior. This makes rollbacks and audits straightforward. (Project Doctrine)
 
 - Global Doctrine: "Omit process narration from final reports." Final reports, syntheses, and changelogs must not include step-by-step process narration, internal task lists, or operational-execution details (for example: procedural headers, explicit task lists, or execution metadata). Keep final artifacts concise and focused on outcomes, changes, and verifiable evidence only. (Global Doctrine)
+ - Global Doctrine: "Omit process narration from final reports." Final reports, syntheses, and changelogs must not include step-by-step process narration, internal task lists, or operational-execution details (for example: procedural headers, explicit task lists, or execution metadata). Keep final artifacts concise and focused on outcomes, changes, and verifiable evidence only. Operational telemetry (tool-batch prefaces, internal todo state, command outputs) is internal by default and must not appear in user-facing artifacts unless explicitly requested by the user. When telemetry is requested, include it as a single machine-readable block and clearly label it as opt-in. (Global Doctrine)
 
 - Project Doctrine: "Doctrine artifact hygiene." Add a conservative pre-commit or CI check that scans doctrine files (e.g., `AGENTS.md`) for forbidden process-narration patterns (for example: procedural headers, internal task lists, or execution metadata) and fails the commit or CI job with a clear remediation message. Keep the check simple (grep-style) and permissive only for explicit opt-ins. (Project Doctrine)
+
+### CHANGELOG — DOCTRINE EVOLUTION
+
+- 2025-09-22: Clarified and strengthened the 'omit process narration' Global Doctrine to explicitly mark operational telemetry as internal-by-default and require explicit user opt-in for inclusion. Added guidance to include telemetry only as a single labeled machine-readable block when requested. Rationale: enforce 'Radical Conciseness' and prevent accidental leakage of operational narratives into user-facing outputs.
 
 ### CHANGELOG — DOCTRINE EVOLUTION
 
