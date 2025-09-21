@@ -6,16 +6,23 @@ export default function Login() {
   const [name, setName] = useState('')
   const router = useRouter()
   const { login } = useAuth()
+  async function handleLogin() {
+    // call server API to set httpOnly cookie
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name }),
+    })
 
-  function handleLogin() {
-    // mock login (in-memory)
-    login(name)
-    // set a mock auth cookie for middleware to check
-    if (typeof document !== 'undefined') {
-      const expires = new Date(Date.now() + 24 * 60 * 60 * 1000).toUTCString()
-      document.cookie = `auth_token=mock-token; expires=${expires}; path=/`
+    if (res.ok) {
+      // update client-side state for UI
+      login(name)
+      // redirect to reports (middleware will allow based on server cookie)
+      router.push('/reports')
+    } else {
+      // handle error (simple alert for now)
+      alert('Login failed')
     }
-    router.push('/reports')
   }
 
   return (
