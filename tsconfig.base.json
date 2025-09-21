@@ -3,10 +3,8 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "Node",
-  "ignoreDeprecations": "6.0",
     // Silence known TypeScript deprecation warnings (e.g. moduleResolution=node10)
     // This keeps local developer workflows quiet until a coordinated TS upgrade.
-    // (removed experimental ignoreDeprecations; keep moduleResolution as-is)
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
