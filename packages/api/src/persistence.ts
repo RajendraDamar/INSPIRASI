@@ -17,8 +17,8 @@ export async function createLocalForageAdapter(): Promise<StorageAdapter | null>
         const v = await instance.getItem(k);
         return v == null ? null : String(v);
       },
-      setItem: async (k: string, value: string) => instance.setItem(k, value),
-      removeItem: async (k: string) => instance.removeItem(k),
+      setItem: async (k: string, value: string) => { await instance.setItem(k, value); },
+      removeItem: async (k: string) => { await instance.removeItem(k); },
     };
   } catch (e) {
     return null;
