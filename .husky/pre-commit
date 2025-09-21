@@ -1,3 +1,6 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+pnpm -w run check:doctrine || exit 1
 #!/usr/bin/env sh
 . "$(dirname "$0")/_/husky.sh"
 npx --no-install lint-staged

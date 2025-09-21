@@ -23,4 +23,11 @@ pnpm-debug.log*
 
 # husky
 .husky/_/
-# Ignore Next.js build output\n/apps/web/.next/\n# Playwright reports and browsers\napps/web/playwright-report/\n# Local env and node modules\nnode_modules/\n.pnpm/\n.DS_Store
+# Ignore Next.js build output
+/apps/web/.next/
+# Playwright reports and browsers
+apps/web/playwright-report/
+# Local env and node modules
+node_modules/
+.pnpm/
+.DS_Store

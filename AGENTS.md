@@ -58,7 +58,7 @@ You will follow this structured workflow for every task:
 -   **System-Wide Plan:** Your plan must explicitly account for the **full system impact.** It must include steps to update all identified consumers and dependencies of the components you intend to change.
 
 ### 2 · COMMAND EXECUTION CANON (MANDATORY)
-> **Execution-Wrapper Mandate:** Every shell command **actually executed** **MUST** be wrapped to ensure it terminates and its full output (stdout & stderr) is captured. A `timeout` is the preferred method. Non-executed, illustrative snippets may omit the wrapper but **must** be clearly marked.
+> **Execution Safety Mandate:** Every shell command actually executed MUST be wrapped to ensure it terminates and its full output (stdout & stderr) is captured. Prefer using a `timeout`. Non-executed illustrative snippets may omit this wrapper but must be clearly marked.
 
 -   **Safety Principles for Execution:**
     -   **Timeout Enforcement:** Long-running commands must have a timeout to prevent hanging sessions.
@@ -75,6 +75,12 @@ You will follow this structured workflow for every task:
 -   **Ephemeral Narratives:** All transient information—your plan, thought process, logs, and summaries—**must** remain in the chat.
 -   **FORBIDDEN:** Creating unsolicited files (`.md`, notes, etc.) to store your analysis. The chat log is the single source of truth for the session.
 -   **Communication Legend:** Use a clear, scannable legend (`✅` for success, `⚠️` for self-corrected issues, `🚧` for blockers) to report status.
+
+#### Operational telemetry vs user-facing output
+
+- Keep operational telemetry (tool-batch prefaces, progress updates, todo state, internal logs) internal to the agent; do not include it in final user-facing artifacts.
+- When a user issues a stricter communication directive (for example: "Radical Conciseness"), that directive overrides routine telemetry: suppress intermediate progress narration and emit only the required final artifact.
+- If telemetry is required for traceability, emit it only on explicit user request as a minimal, machine-readable block.
 
 ### 5 · DOCTRINE EVOLUTION (CONTINUOUS LEARNING)
 -   At the end of a session (when requested via a `retro` command), you will reflect on the interaction to identify durable lessons.
@@ -133,6 +139,26 @@ Small, high-impact rules derived from the recent workspace session. Keep concise
 
 ---
 
+### DISTILLED LESSONS — 2025-09-21
+
+These short, durable rules were distilled from a recent session that implemented server-side JWT authentication and CI integration. They are intentionally small, broadly applicable, and designed to be enforced automatically where possible.
+
+- Global Doctrine: "Verify runtime contracts before and after edits." Always run the project's build/type/lint gates immediately after changing code that affects runtime contracts (auth, serialization, API shapes). This prevents silent client-server mismatches. (Global Doctrine)
+
+- Global Doctrine: "Secrets-by-default in CI." When creating CI workflows that rely on cryptographic secrets, require the value to come from repository or organization secrets (never embed literals). Add a CI-time check that fails with a clear error message if the secret is missing. (Global Doctrine)
+
+- Project Doctrine: "Update all consumers of auth contracts." When changing authentication tokens or cookie shapes, update server endpoints, middleware, and client rehydration paths together in the same change set to avoid transient broken states. Prefer adding a server-side rehydration endpoint (e.g., `/api/auth/me`) rather than exposing cookie parsing to the client. (Project Doctrine)
+
+- Project Doctrine: "Small, reversible safety-first changes." Prefer minimal, backward-compatible edits (small diff, short TTLs, toggles) and document them in `.env.example` and the changelog when modifying security-sensitive behavior. This makes rollbacks and audits straightforward. (Project Doctrine)
+
+- Global Doctrine: "Omit process narration from final reports." Final reports, syntheses, and changelogs must not include step-by-step process narration, internal task lists, or operational-execution details (for example: procedural headers, explicit task lists, or execution metadata). Keep final artifacts concise and focused on outcomes, changes, and verifiable evidence only. (Global Doctrine)
+
+- Project Doctrine: "Doctrine artifact hygiene." Add a conservative pre-commit or CI check that scans doctrine files (e.g., `AGENTS.md`) for forbidden process-narration patterns (for example: procedural headers, internal task lists, or execution metadata) and fails the commit or CI job with a clear remediation message. Keep the check simple (grep-style) and permissive only for explicit opt-ins. (Project Doctrine)
+
+### CHANGELOG — DOCTRINE EVOLUTION
+
+- 2025-09-21: Added four distilled lessons (two Global, two Project) covering build-verification, CI secret hygiene, auth-consumer updates, and safety-first small changes. Rationale: session implementing JWT auth and CI integration surfaced repeatable patterns that reduce risk and improve developer workflow.
+
 ---
 
 ## C · FAILURE ANALYSIS & REMEDIATION
@@ -147,3 +173,4 @@ Small, high-impact rules derived from the recent workspace session. Keep concise
 - 2025-09-20: Added `D · EMBEDDED RETROSPECTIVE RULES` to formalize the retro workflow, safety guards, and size cap for doctrine edits. Rationale: session revealed a need for structured retros and limits on automated doctrine changes.
  - 2025-09-21: Added three retrofit rules from recent mobile/storybook smoke-test session: dev-guard lazy requires, deterministic visual anchors for CI screenshots, and prefer smallest-safe-change CI fixes. Rationale: improve on-device verification reliability and reduce CI friction.
  - 2025-09-21: Added two rules: prefer Context7 as the primary library docs/examples source and always perform an MCP-tools reconnaissance at task start. Rationale: improve accuracy and speed when researching libraries and leveraging repository-scoped tools.
+ - 2025-09-21: Added Project Doctrine recommending a conservative pre-commit/CI hygiene check for doctrine files to prevent accidental inclusion of process-narration in final artifacts.

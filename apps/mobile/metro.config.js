@@ -31,8 +31,24 @@ module.exports = {
           pkgName = name.split('/')[0];
         }
         try {
-          // Try to resolve the package.json for the package base name. This returns the path inside pnpm's
-          // .pnpm store (e.g. node_modules/.pnpm/<pkg>@.../node_modules/<pkg>), which Metro can use as module root.
+          // Try resolving the package entry or package.json. Some packages (with an "exports" field) don't
+          // permit importing their package.json via require.resolve('<pkg>/package.json'). Try resolving the
+          // package itself first (this returns the package entry point), then fall back to package.json.
+          try {
+            const resolved = require.resolve(pkgName);
+            // If resolved points to a file inside the package, return its package root directory.
+            // Walk up until we find the package's package.json
+            let dir = resolved;
+            while (dir && dir !== path.parse(dir).root) {
+              const candidate = path.join(dir, 'package.json');
+              if (fs.existsSync(candidate)) {
+                return path.dirname(candidate);
+              }
+              dir = path.dirname(dir);
+            }
+          } catch (err) {
+            // Some packages don't expose the package entry; try package.json path which may fail on newer packages
+          }
           const pkgJson = require.resolve(`${pkgName}/package.json`);
           return path.dirname(pkgJson);
         } catch (e) {

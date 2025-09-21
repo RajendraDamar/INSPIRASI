@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Text, View, Button as RNButton } from 'react-native';
+import AppNavigator from './navigation/AppNavigator';
 
 export default function App() {
   // Normal app entry: do not auto-run the temporary smoke-test.
@@ -32,9 +33,14 @@ export default function App() {
   }
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{ fontSize: 18, marginBottom: 12 }}>Welcome to Inspirasi — Mobile</Text>
-      <RNButton title="Open UI smoke test" onPress={() => setShowSmoke(true)} />
-    </View>
+    // When not running the dev-only smoke test, render the full app navigator.
+    showSmoke ? (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={{ fontSize: 18, marginBottom: 12 }}>Welcome to Inspirasi — Mobile</Text>
+        <RNButton title="Open UI smoke test" onPress={() => setShowSmoke(true)} />
+      </View>
+    ) : (
+      <AppNavigator />
+    )
   );
 }
