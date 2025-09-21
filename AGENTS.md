@@ -203,3 +203,17 @@ Distilled lessons (concise, durable):
 ### CHANGELOG — DOCTRINE EVOLUTION
 
 - 2025-09-22: Added three concise principles: smallest-safe fixes, optional-dep gating with fallbacks, and automation fallbacks. Rationale: session fixes and PR automation failures highlighted these recurring risks.
+
+---
+
+## DOCTRINE ADDITION — 2025-09-22 (retro follow-up)
+
+- Global Doctrine: "Prefer MCP-first automation for repository operations." If a repository-scoped MCP tool (for example: GitHub MCP) is available and appropriate, prefer it as the primary mechanism for remote repository actions (PRs, issues, reviews). Only fall back to manual or user-driven flows when the Clarification Threshold for Resource Absence is met (for example: the tool is not installed or authentication cannot be established). Always record the decision and observable evidence (tool availability checks and auth results) in the session report. (Global Doctrine)
+
+- Operational Doctrine: "Auth-proof & evidence-first for remote actions." Before performing any authenticated remote change, verify identity (e.g., call the tool's equivalent of 'get authenticated user') and capture the returned identity and any errors in the session record. Include the authenticated principal and the created resource URL in the report. If verification fails, stop, report the failure, and request remediation rather than silently proceeding. (Operational Doctrine)
+
+- Project Doctrine: "Auditable, small remote changes." For remote operations that modify repository state (PRs, branch pushes, releases), include a minimal audit trail in the commit/PR description: branch name, commit SHAs, and an exact one-line summary of the net functional change. Prefer small, reversible remote edits and ensure the session report contains the created resource URL so humans can quickly verify and, if needed, revert. (Project Doctrine)
+
+### CHANGELOG — DOCTRINE EVOLUTION
+
+- 2025-09-22: Added MCP-first automation, auth-proof evidence capture, and auditability requirements after a session where an automation path was initially missed. Rationale: ensure repository-affecting actions are performed via the appropriate MCP tool when available and that actions are verifiable and auditable.
