@@ -217,3 +217,12 @@ Distilled lessons (concise, durable):
 ### CHANGELOG — DOCTRINE EVOLUTION
 
 - 2025-09-22: Added MCP-first automation, auth-proof evidence capture, and auditability requirements after a session where an automation path was initially missed. Rationale: ensure repository-affecting actions are performed via the appropriate MCP tool when available and that actions are verifiable and auditable.
+---
+
+## RETROSPECTIVE — 2025-09-22
+
+- Global Doctrine: "Respect user communication directives." When a user requests strict communication constraints (for example, 'Radical Conciseness'), final user-facing reports for that session must follow the directive exactly (for example: start with 'Final Report' and contain only the requested factual elements). (Global Doctrine)
+
+- Operational Doctrine: "Keep operational narration internal-by-default." Internal process logs, tool prefaces, and step-by-step execution traces must not appear in user-facing artifacts unless explicitly requested; when requested include them as a single labeled machine-readable block. (Operational Doctrine)
+
+- Project Doctrine: "PR audit trail." Automated remote actions (PRs, merges) performed by MCP tools must record the authenticated principal and result URL in the session report and PR body to ensure auditability. (Project Doctrine)
