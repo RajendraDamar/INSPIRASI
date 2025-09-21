@@ -1,0 +1,118 @@
+name: CI — Smoke check
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_android:
+        description: 'Also run Android emulator smoke check (optional)'
+        required: false
+        default: 'false'
+
+jobs:
+  static-smoke:
+    name: Static smoke (fast)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Enable corepack & pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@8.6.0 --activate
+
+      - name: Install workspace deps
+        run: pnpm -w -s install
+
+      - name: Build packages/ui
+        run: pnpm -C packages/ui -s run build
+
+      - name: Run workspace typecheck
+        run: pnpm -w -s run tsc:build
+
+      - name: Verify `packages/ui/dist` exists
+        run: |
+          if [ ! -d "packages/ui/dist" ]; then
+            echo "packages/ui/dist not found"; exit 1; fi
+          ls -la packages/ui/dist | sed -n '1,200p'
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-dist
+          path: packages/ui/dist
+
+  android-smoke:
+    name: Android emulator smoke (optional)
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.run_android == 'true' }}
+    needs: static-smoke
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Enable corepack & pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@8.6.0 --activate
+
+      - name: Install workspace deps
+        run: pnpm -w -s install
+
+      - name: Build packages/ui
+        run: pnpm -C packages/ui -s run build
+
+      - name: Start Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 31
+          arch: x86_64
+          target: google_apis
+          emulator-options: -no-window -gpu swiftshader_indirect
+
+      - name: Run Android smoke helper
+        run: pwsh -NoProfile -File scripts/ci/run-smoke-check.ps1 -Mode Emulator
+
+      - name: Assert marker in device log
+        run: |
+          echo "Checking for INSPIRASI_UI_BUNDLE_OK marker in tmp_device_logcat.txt"
+          if ! grep -q "INSPIRASI_UI_BUNDLE_OK" tmp_device_logcat.txt; then
+            echo "ERROR: INSPIRASI_UI_BUNDLE_OK marker not found in device log." >&2
+            echo "--- tail of tmp_device_logcat.txt ---"
+            tail -n 200 tmp_device_logcat.txt || true
+            exit 1
+          fi
+          echo "Marker found in tmp_device_logcat.txt"
+
+      - name: Upload captured device artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-smoke-artifacts
+          path: |
+            tmp_device_logcat.txt
+            tmp_mobile_screenshot.png
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Pillow for screenshot checks
+        run: |
+          python -m pip install --upgrade pip
+          pip install pillow
+
+      - name: Check screenshot colors
+        run: |
+          echo "Running screenshot color check against tmp_mobile_screenshot.png"
+          python scripts/ci/check_screenshot_color.py tmp_mobile_screenshot.png
