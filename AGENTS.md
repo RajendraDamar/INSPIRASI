@@ -132,6 +132,7 @@ Small, high-impact rules derived from the recent workspace session. Keep concise
 ### RETROFIT RULES (from recent session)
 
 - When adding runtime verification helpers (logs, screenshots), always gate them behind development-only guards (e.g., `__DEV__`) and lazy-require the target package so production bundles are unchanged. (Project Doctrine)
+ - When adding runtime verification helpers (logs, screenshots), always gate them behind development-only guards (e.g., `__DEV__`) and lazy-require the target package so production bundles are unchanged. Prefer providing a small, cross-platform readiness helper (for example, a `wait-for-service` script) that polls the exact endpoint used by automation (for Storybook this is the iframe URL) and supports explicit environment overrides (for example: `STORYBOOK_HOST`, `STORYBOOK_PORT`). Default local automation to the loopback address (127.0.0.1) and document the default port. In CI prefer the static Storybook build to avoid flaky long-running dev servers. (Project Doctrine)
 - For CI-facing visual checks, prefer large, deterministic visual anchors (single-color swatches or QR-like blocks) and a secondary machine-readable log marker. This makes screenshot-based checks robust and fast. (Project Doctrine)
 - Global Safety: Prefer non-invasive, smallest-safe-change fixes for CI or workflow linters (document the rationale in the changelog). If a deeper fix is required, include a short migration plan in the same change. (Global Doctrine)
  - When a task requires library documentation or examples, consult Context7 as the first source for that library's canonical docs and code examples before searching broadly. Treat Context7-first as the default lookup pattern. (Global Doctrine)
@@ -196,6 +197,8 @@ Distilled lessons (concise, durable):
 
 - Global Doctrine: "Prefer smallest-safe automatic fixes." When a security or runtime contract issue is identified (for example: weak ID generation), prefer a minimal, reversible patch (small diff, short TTL, feature flag) that mitigates immediate risk while scheduling a broader follow-up if needed.
 
+ - Global Doctrine: "Verify service binding and reachability before automation access." When automation scripts need to interact with a locally-run service, explicitly validate the service is listening on the expected interface and port (prefer 127.0.0.1 for local automation). Use a TCP probe or OS-level listener check (netstat) as a fallback, and expose host/port via environment variables so automation avoids assuming network bindings. (Global Doctrine)
+
 - Project Doctrine: "Treat optional runtime deps as feature gates." When depending on optional platform modules (e.g., localForage, AsyncStorage), gate dynamic imports behind feature-detection and provide safe fallbacks; add lightweight ambient types or runtime guards in CI to prevent accidental type/regression drift.
 
 - Operational Doctrine: "Prepare human fallbacks for automation." Automation that performs repository actions (PR creation, release publishing) must include a clear manual fallback (commands or web URL) when the automation client or token is unavailable.
@@ -217,3 +220,12 @@ Distilled lessons (concise, durable):
 ### CHANGELOG — DOCTRINE EVOLUTION
 
 - 2025-09-22: Added MCP-first automation, auth-proof evidence capture, and auditability requirements after a session where an automation path was initially missed. Rationale: ensure repository-affecting actions are performed via the appropriate MCP tool when available and that actions are verifiable and auditable.
+---
+
+## RETROSPECTIVE — 2025-09-22
+
+- Global Doctrine: "Respect user communication directives." When a user requests strict communication constraints (for example, 'Radical Conciseness'), final user-facing reports for that session must follow the directive exactly (for example: start with 'Final Report' and contain only the requested factual elements). (Global Doctrine)
+
+- Operational Doctrine: "Keep operational narration internal-by-default." Internal process logs, tool prefaces, and step-by-step execution traces must not appear in user-facing artifacts unless explicitly requested; when requested include them as a single labeled machine-readable block. (Operational Doctrine)
+
+- Project Doctrine: "PR audit trail." Automated remote actions (PRs, merges) performed by MCP tools must record the authenticated principal and result URL in the session report and PR body to ensure auditability. (Project Doctrine)

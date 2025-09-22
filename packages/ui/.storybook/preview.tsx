@@ -22,8 +22,8 @@ export const globalTypes = {
 };
 
 export const decorators = [
-  (Story, context) => {
-    const theme = context.globals?.theme || 'light';
+  (Story: any, context: any) => {
+    const theme = (context.globals?.theme || 'light') as 'light' | 'dark';
     return (
       <ThemeProvider initial={theme}>
         <div style={{ padding: 16 }}>
