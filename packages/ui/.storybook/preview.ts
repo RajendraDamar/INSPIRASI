@@ -1,35 +1,4 @@
-import React from 'react';
 import '../src/styles.css';
-import ThemeProvider from '../src/ThemeProvider';
-
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' }
 };
-
-export const globalTypes = {
-  theme: {
-    name: 'Theme',
-    description: 'Global theme for components',
-    defaultValue: 'light',
-    toolbar: {
-      icon: 'circlehollow',
-      items: [
-        { value: 'light', title: 'Light' },
-        { value: 'dark', title: 'Dark' }
-      ]
-    }
-  }
-};
-
-export const decorators = [
-  (Story, context) => {
-    const theme = context.globals?.theme || 'light';
-    return (
-      <ThemeProvider initial={theme}>
-        <div style={{ padding: 16 }}>
-          <Story />
-        </div>
-      </ThemeProvider>
-    );
-  }
-];

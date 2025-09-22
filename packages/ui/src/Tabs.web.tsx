@@ -53,7 +53,7 @@ export const Tabs: React.FC<{ tabs: string[]; active?: number; onChange?: (index
             onChange?.(i);
           }}
           onKeyDown={(e) => handleKey(e)}
-          className={`px-3 py-1 rounded ${i === localActive ? 'bg-primary-600 text-white' : 'bg-gray-100 text-black'}`}
+          className={`px-3 py-1 rounded ${i === localActive ? 'bg-primary-600 text-white' : 'bg-gray-100'}`}
         >
           {t}
         </button>
